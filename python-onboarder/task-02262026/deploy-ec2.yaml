@@ -1,0 +1,31 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: deploy-ec2
+  namespace: my-onboarding-project
+spec:
+  workspaces:
+    - name: shared-data
+  steps:
+    - name: terraform-init-apply
+      image: hashicorp/terraform:latest
+      workingDir: $(workspaces.shared-data.path)
+      env:
+        - name: AWS_ROLE_ARN
+          value: arn:aws:iam::319310747432:role/GitHubAction-AssumeRoleWithAction
+        - name: AWS_WEB_IDENTITY_TOKEN_FILE
+          value: /var/run/secrets/aws/token
+        - name: AWS_REGION
+          value: us-east-1
+      script: |
+        #!/bin/sh
+        echo "Starting Terraform..."
+        terraform init
+        terraform apply -auto-approve
+      volumeMounts:
+        - name: oidc-token-vol
+          mountPath: /var/run/secrets/aws
+  volumes:
+    - name: oidc-token-vol
+      secret:
+        secretName: aws-oidc-token

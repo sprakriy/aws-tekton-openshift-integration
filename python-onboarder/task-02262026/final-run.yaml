@@ -1,0 +1,13 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: oidc-final-victory-run
+  namespace: my-onboarding-project
+spec:
+  pipelineRef:
+    name: github-refresh-pipeline
+  serviceAccountName: tekton-aws-sa
+  workspaces:
+  - name: shared-data
+    persistentVolumeClaim:
+      claimName: hello-python-pvc

@@ -1,0 +1,11 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: el-github-listener
+  namespace: my-onboarding-project
+spec:
+  serviceAccountName: tekton-robot
+  triggers:
+    - template:
+        ref: python-onboarder-template
+      # We removed the interceptor block to stop the CrashLoop

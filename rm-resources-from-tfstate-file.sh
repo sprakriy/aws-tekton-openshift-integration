@@ -1,0 +1,5 @@
+terraform state rm module.monitoring.kubernetes_manifest.nginx_monitor
+terraform state rm module.security.kubernetes_namespace_v1.nginx_dev
+terraform state rm module.workload.kubernetes_deployment_v1.nginx
+terraform state rm module.workload.kubernetes_service_v1.nginx_service
+terraform state rm module.monitoring.kubernetes_manifest.nginx_servicemonitor

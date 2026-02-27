@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: oidc-final-success-run
+  namespace: my-onboarding-project
+spec:
+  pipelineRef:
+    name: github-refresh-pipeline
+  serviceAccountName: tekton-aws-sa
+  workspaces:
+  - name: shared-data
+    persistentVolumeClaim:
+      claimName: hello-python-pvc
+  podTemplate:
+    env:
+      # Tell the AWS SDK which Role to assume
+      - name: AWS_ROLE_ARN
+        value: arn:aws:iam::319310747432:role/GitHubAction-AssumeRoleWithAction
+      # Tell the AWS SDK where the default Tekton token is
+      - name: AWS_WEB_IDENTITY_TOKEN_FILE
+        value: /var/run/secrets/kubernetes.io/serviceaccount/token
+      # This is the "Issuer" bypass - if the SDK needs it
+      - name: AWS_REGION
+        value: us-east-1 # Ensure this matches your S3 backend region

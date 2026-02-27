@@ -1,0 +1,21 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": [
+          "arn:aws:iam::319310747432:oidc-provider/myokld.click",
+          "arn:aws:iam::319310747432:oidc-provider/kubernetes.default.svc.cluster.local"
+        ]
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "kubernetes.default.svc.cluster.local:aud": "sts.amazonaws.com",
+          "myokld.click:aud": "sts.amazonaws.com"
+        }
+      }
+    }
+  ]
+}

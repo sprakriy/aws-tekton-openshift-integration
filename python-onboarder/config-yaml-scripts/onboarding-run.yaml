@@ -1,0 +1,12 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: clone-aws-infra-
+  namespace: my-onboarding-project
+spec:
+  pipelineRef:
+    name: onboarding-pipeline
+  workspaces:
+    - name: shared-data
+      persistentVolumeClaim:
+        claimName: hello-python-pvc

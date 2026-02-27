@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: oidc-final-success-run
+  namespace: my-onboarding-project
+spec:
+  pipelineRef:
+    name: github-refresh-pipeline
+  serviceAccountName: tekton-aws-sa
+  workspaces:
+  - name: shared-data
+    persistentVolumeClaim:
+      claimName: hello-python-pvc
+  podTemplate:
+    volumes:
+    - name: aws-token
+      projected:
+        sources:
+        - serviceAccountToken:
+            audience: sts.amazonaws.com
+            expirationSeconds: 86400
+            path: token
+            # Pointing to your verified IAM Identity Provider
+            issuer: https://myokld.click

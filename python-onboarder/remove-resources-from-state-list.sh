@@ -1,0 +1,3 @@
+terraform state rm module.onboarding.kubernetes_manifest.github_listener 
+terraform state rm module.onboarding.kubernetes_manifest.onboarding_trigger_template 
+terraform state rm module.onboarding.kubernetes_role_binding_v1.tekton_triggers_binding
